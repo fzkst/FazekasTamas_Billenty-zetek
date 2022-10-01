@@ -13,6 +13,18 @@
     </nav>
     <main class="container">
         <h1>Billentyűzet</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Termék</th>
+                    <th>Megjelenés éve</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
     </main>
 </body>
 </html>

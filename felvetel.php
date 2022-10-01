@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,12 +43,51 @@
             </div>
             <div>
                 <label for="mechanic">Mechanikus</label>
-                <input type="checkbox" name="mechanik" id="mechanik" required>
+                <input type="checkbox" name="mechanik" id="mechanik">
             </div>
             <div>
                 <button type="submit">Felvétel</button>
             </div>
         </form>
+        <?php
+            if (isset($_POST) && !empty($_POST)) {
+                $hiba = "";
+                if (!isset($_POST['termek']) || empty($_POST['termek'])) {
+                    $hiba .= "A 'termék' mező kitöltése kötelező. ";
+                }
+                if (!isset($_POST['megjelenes']) || empty($_POST['megjelenes'])) {
+                    $hiba .= "A 'megjelenés éve' mező kitöltése kötelező. ";
+                } else if (!is_numeric($_POST['megjelenes']) || round($_POST['megjelenes']) != $_POST['megjelenes']){
+                    $hiba .= "A megjelenés éve csak egész szám lehet. ";
+                } else if ($_POST['megjelenes'] < 1900 || $_POST['megjelenes'] > date("Y")) {
+                    $hiba .= "A megjelenés éve 1950 és ". date("Y"). " közé kell hogy essen. ";
+                }
+                if (!isset($_POST['kapcsolodas']) || empty($_POST['kapcsolodas'])) {
+                    $hiba .= "A kapcsolodás típusát ki kell választani. ";
+                }
+                if (!isset($_POST['meret']) || empty($_POST['meret'])) {
+                    $hiba .= "A billentyűzet méretét ki kell választani. ";
+            }            
+        ?>
+        <?php if ($hiba == ""): ?>
+        <?php
+            $file = fopen("adatok.csv", "a");
+            $sor = implode(";", $_POST) . PHP_EOL;
+            fwrite($file, $sor);
+        ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Sikeres felvétel.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php else: ?>                
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?php echo $hiba ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php endif; ?>
+        <?php
+        }
+        ?>
     </main>
 </body>
 </html>

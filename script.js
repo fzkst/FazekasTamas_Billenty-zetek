@@ -28,7 +28,6 @@ function validalas() {
     if (kapcsolodas.trim().length == 0) {
         alert("A kapcsolodás típusát kötelező megadni");
         return false;
-    }                 
-    return false;        
+    }                        
 }           
                    
